@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using PaginationAPI.Models;
 using PaginationAPI.Models.Dto;
 using PaginationAPI.Models.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PaginationAPI.Controllers
 {
@@ -25,11 +27,21 @@ namespace PaginationAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPaged([FromBody] PagedRequest request)  
+        public IActionResult GetPaged(int pageIndex, int pageSize, string sortOrder)  
         {
-            var quary = from d in context.NyTaxis select d;
+            var query = from d in context.NyTaxis select d;
 
-            return Ok(new PagedResponse<NyTaxi>(quary, request.PageIndex, request.PageSize, request.SortOrder));
+            return Ok(new PagedResponse<NyTaxi>(query, pageIndex, pageSize, sortOrder));
+        }
+
+        [HttpGet]
+        public IActionResult SearchWithPagedByMedallion(int pageIndex, int pageSize, string searchParameter)
+        {
+            var query = from d in context.NyTaxis
+                        where d.Medallion.Contains(searchParameter)
+                        select d;
+
+            return Ok(new PagedResponse<NyTaxi>(query, pageIndex, pageSize, null));
         }
     }
 }
