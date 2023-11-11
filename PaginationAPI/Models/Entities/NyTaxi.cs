@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PaginationDemo.Models;
+namespace PaginationAPI.Models.Entities;
 
-public partial class NyctaxiSample
+public partial class NyTaxi
 {
     public string Medallion { get; set; } = null!;
 

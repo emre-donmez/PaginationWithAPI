@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using PaginationAPI.Models.Entities;
 
-namespace PaginationDemo.Models;
+namespace PaginationAPI.Models;
 
-public partial class NyctaxiSampleContext : DbContext
+public partial class NycTaxiContext : DbContext
 {
-    public NyctaxiSampleContext()
+    public NycTaxiContext()
     {
     }
 
-    public NyctaxiSampleContext(DbContextOptions<NyctaxiSampleContext> options)
+    public NycTaxiContext(DbContextOptions<NycTaxiContext> options)
         : base(options)
     {
     }
 
 
-    public virtual DbSet<NyctaxiSample> NyctaxiSamples { get; set; }
+    public virtual DbSet<NyTaxi> NyTaxis { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");     
 
-        modelBuilder.Entity<NyctaxiSample>(entity =>
+        modelBuilder.Entity<NyTaxi>(entity =>
         {
             entity
                 .HasNoKey()
