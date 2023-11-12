@@ -15,9 +15,29 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-
+          
             <div id="tableContainer" style="display:none;">
-
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="pageSizeSelect">Page Size:</label>
+                        <div class="input-group" style="width:14%">
+                            <select class="custom-select" id="pageSizeSelect" onchange="changePageSize()">
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="searchBox" class="mb-3 col">
+                        <label for="searchInput">Search by Medallion</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Medallion...">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="searchByMedallion()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <table id="dataTable" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
@@ -62,129 +82,7 @@
     </div>
 
     @section Scripts{
-        <script>
-            var pageIndex = 1; 
-            var pageSize = 10; 
-            var totalPageCount = 0; 
-            var maxPagesToShow = 25; 
-            var sortOrder = "medallion";
-
-            $(document).ready(function () {
-                loadData();
-                $(document).on("click", ".pagination-link", function () {
-                    pageIndex = $(this).data("pageindex");
-                    loadData();
-                });
-            });
-
-            function loadData() {
-                $('#loadingSpinner').show();
-                $('#tableContainer').hide();
-                $.ajax({
-                    type: "GET",
-                    url: "https://localhost:7095/api/Nytaxi/GetPaged",
-                    data: {
-                        pageIndex: pageIndex,
-                        pageSize: pageSize,
-                        sortOrder: sortOrder
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        totalPageCount = data.totalPages;
-                        $('#loadingSpinner').hide();
-                        $('#tableContainer').show();
-                        var tableBody = $("#dataTable tbody");
-                        tableBody.empty();
-
-                        $.each(data.data, function (index, item) {
-                            var row = $("<tr>")
-                                .append($("<td>").text(item.medallion))
-                                .append($("<td>").text(item.hackLicense))
-                                .append($("<td>").text(item.vendorId))
-                                .append($("<td>").text(item.rateCode))
-                                .append($("<td>").text(item.storeAndFwdFlag))
-                                .append($("<td>").text(item.pickupDatetime))
-                                .append($("<td>").text(item.dropoffDatetime))
-                                .append($("<td>").text(item.passengerCount))
-                                .append($("<td>").text(item.tripTimeInSecs))
-                                .append($("<td>").text(item.tripDistance))
-                                .append($("<td>").text(item.pickupLongitude))
-                                .append($("<td>").text(item.pickupLatitude))
-                                .append($("<td>").text(item.dropoffLongitude))
-                                .append($("<td>").text(item.dropoffLatitude))
-                                .append($("<td>").text(item.paymentType))
-                                .append($("<td>").text(item.fareAmount))
-                                .append($("<td>").text(item.surcharge))
-                                .append($("<td>").text(item.mtaTax))
-                                .append($("<td>").text(item.tollsAmount))
-                                .append($("<td>").text(item.totalAmount))
-                                .append($("<td>").text(item.tipAmount))
-                                .append($("<td>").text(item.tipped))
-                                .append($("<td>").text(item.tipClass));
-                            tableBody.append(row);
-                        });
-
-                        renderPagination();
-                    },
-                    error: function (error) {
-                        console.log("AJAX error: " + error);
-                    }
-                });
-            }
-
-            function renderPagination() {
-                var paginationContainer = $("#pagination ul");
-                paginationContainer.empty();
-
-                var pageLinks = [];
-
-                pageLinks.push($("<li class='page-item'>")
-                    .append($("<a class='page-link pagination-link' href='#'>")
-                        .text(1)
-                        .data("pageindex", 1)
-                    ));
-
-                if (pageIndex > 1) {
-                    pageLinks.push($("<li class='page-item disabled'>")
-                        .append($("<span class='page-link'>")
-                            .text("...")
-                        ));
-                }
-
-                var startPage = Math.max(2, pageIndex - Math.floor(maxPagesToShow / 2));
-                var endPage = Math.min(startPage + maxPagesToShow - 1, totalPageCount);
-
-                if (endPage > totalPageCount - 3) {
-                    startPage = Math.max(startPage - (endPage - (totalPageCount - 3)), 2);
-                    endPage = totalPageCount - 3;
-                }
-
-                for (var i = startPage; i <= endPage; i++) {
-                    pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
-                        .append($("<a class='page-link pagination-link' href='#'>")
-                            .text(i)
-                            .data("pageindex", i)
-                        ));
-                }
-
-                if (endPage < totalPageCount - 3) {
-                    pageLinks.push($("<li class='page-item disabled'>")
-                        .append($("<span class='page-link'>")
-                            .text("...")
-                        ));
-                }
-
-                for (var i = Math.max(totalPageCount - 2, 2); i <= totalPageCount; i++) {
-                    pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
-                        .append($("<a class='page-link pagination-link' href='#'>")
-                            .text(i)
-                            .data("pageindex", i)
-                        ));
-                }
-
-                paginationContainer.append(pageLinks);
-            }
-        </script>
+        <script src="/js/nytaxi.js"></script>
     }
 
 </body>
