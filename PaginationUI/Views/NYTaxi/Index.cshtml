@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Veri Tablosu</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="table-responsive">
+
+            <div id="loadingSpinner" class="text-center">
+                <div class="spinner-border" role="status" aria-hidden="true">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <div id="tableContainer" style="display:none;">
+
+                <table id="dataTable" class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Medallion</th>
+                            <th>HackLicense</th>
+                            <th>VendorId</th>
+                            <th>RateCode</th>
+                            <th>StoreAndFwdFlag</th>
+                            <th>PickupDatetime</th>
+                            <th>DropoffDatetime</th>
+                            <th>PassengerCount</th>
+                            <th>TripTimeInSecs</th>
+                            <th>TripDistance</th>
+                            <th>PickupLongitude</th>
+                            <th>PickupLatitude</th>
+                            <th>DropoffLongitude</th>
+                            <th>DropoffLatitude</th>
+                            <th>PaymentType</th>
+                            <th>FareAmount</th>
+                            <th>Surcharge</th>
+                            <th>MtaTax</th>
+                            <th>TollsAmount</th>
+                            <th>TotalAmount</th>
+                            <th>TipAmount</th>
+                            <th>Tipped</th>
+                            <th>TipClass</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                loadData(1, 10, "medallion");
+            });
+
+            function loadData(pageIndex, pageSize, sortOrder) {               
+
+                $('#loadingSpinner').show();
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7095/api/Nytaxi/GetPaged",
+                    data: {
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
+                        sortOrder: sortOrder
+                    },
+
+                    dataType: "json",
+                    success: function (data) {
+
+                        console.log(data);
+
+                        $('#loadingSpinner').hide();
+                        $('#tableContainer').show();
+                        var tableBody = $("#dataTable tbody");
+                        $.each(data.data, function (index, item) {
+                            var row = $("<tr>")
+                                .append($("<td>").text(item.medallion))
+                                .append($("<td>").text(item.hackLicense))
+                                .append($("<td>").text(item.vendorId))
+                                .append($("<td>").text(item.rateCode))
+                                .append($("<td>").text(item.storeAndFwdFlag))
+                                .append($("<td>").text(item.pickupDatetime))
+                                .append($("<td>").text(item.dropoffDatetime))
+                                .append($("<td>").text(item.passengerCount))
+                                .append($("<td>").text(item.tripTimeInSecs))
+                                .append($("<td>").text(item.tripDistance))
+                                .append($("<td>").text(item.pickupLongitude))
+                                .append($("<td>").text(item.pickupLatitude))
+                                .append($("<td>").text(item.dropoffLongitude))
+                                .append($("<td>").text(item.dropoffLatitude))
+                                .append($("<td>").text(item.paymentType))
+                                .append($("<td>").text(item.fareAmount))
+                                .append($("<td>").text(item.surcharge))
+                                .append($("<td>").text(item.mtaTax))
+                                .append($("<td>").text(item.tollsAmount))
+                                .append($("<td>").text(item.totalAmount))
+                                .append($("<td>").text(item.tipAmount))
+                                .append($("<td>").text(item.tipped))
+                                .append($("<td>").text(item.tipClass));
+                            tableBody.append(row);
+                        });
+                    },
+                    error: function (error) {
+                        console.log("AJAX error: " + error);
+                    }
+                });
+            }
+        </script>
+    }
+
+</body>
+</html>
