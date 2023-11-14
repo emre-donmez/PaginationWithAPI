@@ -78,47 +78,58 @@ function renderPagination() {
 
     var pageLinks = [];
 
-    pageLinks.push($("<li class='page-item " + (pageIndex === 1 ? 'active' : '') + "'>")
-        .append($("<a class='page-link pagination-link' href='#'>")
-            .text(1)
-            .data("pageindex", 1)
-        ));
-
-    if (pageIndex > 14) {
-        pageLinks.push($("<li class='page-item disabled'>")
-            .append($("<span class='page-link'>")
-                .text("...")
-            ));
-    }
-
-    var startPage = Math.max(2, pageIndex - Math.floor(maxPagesToShow / 2));
-    var endPage = Math.min(startPage + maxPagesToShow - 1, totalPageCount);
-
-    for (var i = startPage; i <= endPage; i++) {
-        pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
+    if (totalPageCount <= maxPagesToShow) {
+        for (var i = 1; i <= totalPageCount; i++) {
+            pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
+                .append($("<a class='page-link pagination-link' href='#'>")
+                    .text(i)
+                    .data("pageindex", i)
+                ));
+        }
+    } else {
+        pageLinks.push($("<li class='page-item " + (pageIndex === 1 ? 'active' : '') + "'>")
             .append($("<a class='page-link pagination-link' href='#'>")
-                .text(i)
-                .data("pageindex", i)
+                .text(1)
+                .data("pageindex", 1)
             ));
-    }
 
-    if (endPage < totalPageCount - 3) {
-        pageLinks.push($("<li class='page-item disabled'>")
-            .append($("<span class='page-link'>")
-                .text("...")
-            ));
-    }
+        if (pageIndex > 14) {
+            pageLinks.push($("<li class='page-item disabled'>")
+                .append($("<span class='page-link'>")
+                    .text("...")
+                ));
+        }
 
-    for (var i = Math.max(totalPageCount - 2, 2); i <= totalPageCount; i++) {
-        pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
-            .append($("<a class='page-link pagination-link' href='#'>")
-                .text(i)
-                .data("pageindex", i)
-            ));
+        var startPage = Math.max(2, pageIndex - Math.floor(maxPagesToShow / 2));
+        var endPage = Math.min(startPage + maxPagesToShow - 1, totalPageCount);
+
+        for (var i = startPage; i <= endPage; i++) {
+            pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
+                .append($("<a class='page-link pagination-link' href='#'>")
+                    .text(i)
+                    .data("pageindex", i)
+                ));
+        }
+
+        if (endPage < totalPageCount - 3) {
+            pageLinks.push($("<li class='page-item disabled'>")
+                .append($("<span class='page-link'>")
+                    .text("...")
+                ));
+        }
+
+        for (var i = Math.max(totalPageCount - 2, 2); i <= totalPageCount; i++) {
+            pageLinks.push($("<li class='page-item " + (i === pageIndex ? 'active' : '') + "'>")
+                .append($("<a class='page-link pagination-link' href='#'>")
+                    .text(i)
+                    .data("pageindex", i)
+                ));
+        }
     }
 
     paginationContainer.append(pageLinks);
 }
+
 
 function renderPageSizeSelect() {
     var pageSizeSelect = $("#pageSizeSelect");
