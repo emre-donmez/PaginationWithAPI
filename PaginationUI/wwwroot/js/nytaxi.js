@@ -3,6 +3,7 @@ var pageSize = 10;
 var totalPageCount = 0;
 var maxPagesToShow = 25;
 var sortOrder = "medallion";
+var spanTotalEntites = $("#totalCount");
 
 $(document).ready(function () {
     loadData();
@@ -16,6 +17,20 @@ $(document).ready(function () {
         loadData();       
     });
 });
+function sortData(column) {
+    if (sortOrder === column) {
+        sortOrder += sortOrder.endsWith("Desc") ? "" : "Desc";
+    } else {
+        sortOrder = column;
+    }
+    $(".sort-arrows").removeClass("active-up active-down");
+
+    
+    $("#" + column + "SortArrows").addClass(sortOrder.endsWith("Desc") ? "active-down" : "active-up");
+
+    loadData();
+}
+
 
 function loadData() {
     $('#loadingSpinner').show();
@@ -35,7 +50,7 @@ function loadData() {
             $('#tableContainer').show();
             var tableBody = $("#dataTable tbody");
             tableBody.empty();
-
+            spanTotalEntites.text(data.totalEntites);
             $.each(data.data, function (index, item) {
                 var row = $("<tr>")
                     .append($("<td>").text(item.medallion))
@@ -167,6 +182,7 @@ function searchByMedallion() {
             totalPageCount = data.totalPages;
             var tableBody = $("#dataTable tbody");
             tableBody.empty();
+            spanTotalEntites.text(data.totalEntites);
 
             $.each(data.data, function (index, item) {
                 var row = $("<tr>")

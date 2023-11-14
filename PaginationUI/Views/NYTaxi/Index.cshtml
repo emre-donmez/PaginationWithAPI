@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/nytaxi.css"/>
     <title>Veri Tablosu</title>
 </head>
 <body>
@@ -17,6 +19,10 @@
             </div>
           
             <div id="tableContainer" style="display:none;">
+
+                <div class="mb-3">
+                    <p>Total Data Count: <span id="totalCount"></span></p>
+                </div>
                 <div class="row">
                     <div class="form-group col">
                         <label for="pageSizeSelect">Page Size:</label>
@@ -41,29 +47,189 @@
                 <table id="dataTable" class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Medallion</th>
-                            <th>HackLicense</th>
-                            <th>VendorId</th>
-                            <th>RateCode</th>
-                            <th>StoreAndFwdFlag</th>
-                            <th>PickupDatetime</th>
-                            <th>DropoffDatetime</th>
-                            <th>PassengerCount</th>
-                            <th>TripTimeInSecs</th>
-                            <th>TripDistance</th>
-                            <th>PickupLongitude</th>
-                            <th>PickupLatitude</th>
-                            <th>DropoffLongitude</th>
-                            <th>DropoffLatitude</th>
-                            <th>PaymentType</th>
-                            <th>FareAmount</th>
-                            <th>Surcharge</th>
-                            <th>MtaTax</th>
-                            <th>TollsAmount</th>
-                            <th>TotalAmount</th>
-                            <th>TipAmount</th>
-                            <th>Tipped</th>
-                            <th>TipClass</th>
+                            <th class="sortable" onclick="sortData('medallion')">
+                                Medallion
+                                <div class="sort-arrows" id="medallionSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('hackLicense')">
+                                HackLicense
+                                <div class="sort-arrows" id="hackLicenseSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('vendorId')">
+                                VendorId
+                                <div class="sort-arrows" id="vendorIdSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('rateCode')">
+                                RateCode
+                                <div class="sort-arrows" id="rateCodeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('storeAndFwdFlag')">
+                                StoreAndFwdFlag
+                                <div class="sort-arrows" id="storeAndFwdFlagSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('pickupDatetime')">
+                                PickupDatetime
+                                <div class="sort-arrows" id="pickupDatetimeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('dropoffDatetime')">
+                                DropoffDatetime
+                                <div class="sort-arrows" id="dropoffDatetimeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('passengerCount')">
+                                PassengerCount
+                                <div class="sort-arrows" id="passengerCountSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('tripTimeInSecs')">
+                                TripTimeInSecs
+                                <div class="sort-arrows" id="tripTimeInSecsSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('tripDistance')">
+                                TripDistance
+                                <div class="sort-arrows" id="tripDistanceSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('pickupLongitude')">
+                                PickupLongitude
+                                <div class="sort-arrows" id="pickupLongitudeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('pickupLatitude')">
+                                PickupLatitude
+                                <div class="sort-arrows" id="pickupLatitudeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('dropoffLongitude')">
+                                DropoffLongitude
+                                <div class="sort-arrows" id="dropoffLongitudeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('dropoffLatitude')">
+                                DropoffLatitude
+                                <div class="sort-arrows" id="dropoffLatitudeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('paymentType')">
+                                PaymentType
+                                <div class="sort-arrows" id="paymentTypeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('fareAmount')">
+                                FareAmount
+                                <div class="sort-arrows" id="fareAmountSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('surcharge')">
+                                Surcharge
+                                <div class="sort-arrows" id="surchargeSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('mtaTax')">
+                                MtaTax
+                                <div class="sort-arrows" id="mtaTaxSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('tollsAmount')">
+                                TollsAmount
+                                <div class="sort-arrows" id="tollsAmountSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('totalAmount')">
+                                TotalAmount
+                                <div class="sort-arrows" id="totalAmountSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('tipAmount')">
+                                TipAmount
+                                <div class="sort-arrows" id="tipAmountSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('tipped')">
+                                Tipped
+                                <div class="sort-arrows" id="tippedSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
+
+                            <th class="sortable" onclick="sortData('tipClass')">
+                                TipClass
+                                <div class="sort-arrows" id="tipClassSortArrows">
+                                    <i class="fa fa-angle-up"></i>
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

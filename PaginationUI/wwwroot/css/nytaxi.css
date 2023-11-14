@@ -1,0 +1,11 @@
+﻿.fa-angle-up, .fa-angle-down {
+    color: gray;
+}
+
+.active-down > i.fa.fa-angle-down {
+    color: white;
+}
+
+.active-up > i.fa.fa-angle-up {
+    color: white;
+}
