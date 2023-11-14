@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Mvc;
 using PaginationAPI.Models;
 using PaginationAPI.Models.Dto;
 using PaginationAPI.Models.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PaginationAPI.Controllers
 {
@@ -35,13 +32,13 @@ namespace PaginationAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult SearchWithPagedByMedallion(int pageIndex, int pageSize, string searchParameter)
+        public IActionResult SearchWithPagedByMedallion(int pageIndex, int pageSize, string searchParameter, string? sortOrder)
         {
             var query = from d in context.NyTaxis
                         where d.Medallion.Contains(searchParameter)
                         select d;
-
-            return Ok(new PagedResponse<NyTaxi>(query, pageIndex, pageSize, null));
+            
+            return Ok(new PagedResponse<NyTaxi>(query, pageIndex, pageSize, sortOrder));
         }
     }
 }

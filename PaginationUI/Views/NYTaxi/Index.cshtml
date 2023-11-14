@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/nytaxi.css"/>
+    <link rel="stylesheet" href="~/css/nytaxi.css" />
     <title>Veri Tablosu</title>
 </head>
 <body>
@@ -39,7 +39,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="searchInput" placeholder="Medallion...">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" onclick="searchByMedallion()">Search</button>
+                                <button class="btn btn-outline-secondary" type="button" onclick="sendRequest()">Search</button>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         <tr>
                             <th class="sortable" onclick="sortData('medallion')">
                                 Medallion
-                                <div class="sort-arrows" id="medallionSortArrows">
+                                <div class="sort-arrows active-up" id="medallionSortArrows">
                                     <i class="fa fa-angle-up"></i>
                                     <i class="fa fa-angle-down"></i>
                                 </div>
