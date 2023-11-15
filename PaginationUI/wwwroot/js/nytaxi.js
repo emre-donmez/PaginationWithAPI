@@ -4,14 +4,30 @@ var totalPageCount = 0;
 var maxPagesToShow = 25;
 var sortOrder = "medallion";
 var spanTotalEntites = $("#totalCount");
+var apiUrls;
 
 $(document).ready(function () {
-    sendRequest();
+    getApiUrls();
     $(document).on("click", ".pagination-link", function () {
         pageIndex = $(this).data("pageindex");
         sendRequest();      
     });
 });
+
+function getApiUrls() {
+    $.ajax({
+        type: "GET",
+        url: "/api/Configuration/GetApiUrls",
+        dataType: "json",
+        success: function (data) {
+            apiUrls = data;
+            sendRequest();
+        },
+        error: function (error) {
+            console.log("AJAX error: " + error);
+        }
+    });
+}
 function sortData(column) {
     if (sortOrder === column) {
         sortOrder += sortOrder.endsWith("Desc") ? "" : "Desc";
@@ -28,18 +44,15 @@ function sendRequest(){
     $('#loadingSpinner').show();
     $('#tableContainer').hide();
     var searchParameter = $("#searchInput").val();
-    console.log(searchParameter);
-    if (searchParameter) {
-        console.log("dü");
+    if (searchParameter) 
         searchByMedallion(searchParameter);
-        return;
-    }
-    loadData();
+    else
+        loadData();
 }
 function loadData() {
     $.ajax({
         type: "GET",
-        url: "https://localhost:7095/api/Nytaxi/GetPaged",
+        url: apiUrls.getPaged,
         data: {
             pageIndex: pageIndex,
             pageSize: pageSize,
@@ -153,7 +166,7 @@ function changePageSize() {
 function searchByMedallion(searchParameter) {   
     $.ajax({
         type: "GET",
-        url: "https://localhost:7095/api/Nytaxi/SearchWithPagedByMedallion",
+        url: apiUrls.searchWithPagedByMedallion,
         data: {
             pageIndex: pageIndex,
             pageSize: pageSize,
