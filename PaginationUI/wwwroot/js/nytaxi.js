@@ -10,7 +10,7 @@ $(document).ready(function () {
     getApiUrls();
     $(document).on("click", ".pagination-link", function () {
         pageIndex = $(this).data("pageindex");
-        sendRequest();      
+        sendRequest();
     });
 });
 
@@ -35,7 +35,7 @@ function sortData(column) {
         sortOrder = column;
     }
     $(".sort-arrows").removeClass("active-up active-down");
-    
+
     $("#" + column + "SortArrows").addClass(sortOrder.endsWith("Desc") ? "active-down" : "active-up");
     pageIndex = 1;
     sendRequest();
@@ -44,7 +44,7 @@ function sendRequest(){
     $('#loadingSpinner').show();
     $('#tableContainer').hide();
     var searchParameter = $("#searchInput").val();
-    if (searchParameter) 
+    if (searchParameter)
         searchByMedallion(searchParameter);
     else
         loadData();
@@ -163,7 +163,7 @@ function changePageSize() {
     pageIndex = 1;
     sendRequest();
 }
-function searchByMedallion(searchParameter) {   
+function searchByMedallion(searchParameter) {
     $.ajax({
         type: "GET",
         url: apiUrls.searchWithPagedByMedallion,

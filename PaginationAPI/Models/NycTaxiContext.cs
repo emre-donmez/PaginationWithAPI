@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PaginationAPI.Models.Entities;
 
 namespace PaginationAPI.Models;
@@ -16,12 +14,11 @@ public partial class NycTaxiContext : DbContext
     {
     }
 
-
     public virtual DbSet<NyTaxi> NyTaxis { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");     
+        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
         modelBuilder.Entity<NyTaxi>(entity =>
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PaginationAPI.Models.Entities;
+﻿namespace PaginationAPI.Models.Entities;
 
 public partial class NyTaxi
 {

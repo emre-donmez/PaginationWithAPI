@@ -9,24 +9,24 @@ namespace PaginationAPI.Controllers
     [ApiController]
     public class NytaxiController : ControllerBase
     {
-        private readonly NycTaxiContext context;
+        private readonly NycTaxiContext _context;
 
         public NytaxiController(NycTaxiContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var data = context.NyTaxis.ToList();
+            var data = _context.NyTaxis.ToList();
             return Ok(data.Count);
         }
 
         [HttpGet]
-        public IActionResult GetPaged(int pageIndex, int pageSize, string sortOrder)  
+        public IActionResult GetPaged(int pageIndex, int pageSize, string sortOrder)
         {
-            var query = from d in context.NyTaxis select d;
+            var query = from d in _context.NyTaxis select d;
 
             return Ok(new PagedResponse<NyTaxi>(query, pageIndex, pageSize, sortOrder));
         }
@@ -34,10 +34,10 @@ namespace PaginationAPI.Controllers
         [HttpGet]
         public IActionResult SearchWithPagedByMedallion(int pageIndex, int pageSize, string searchParameter, string? sortOrder)
         {
-            var query = from d in context.NyTaxis
+            var query = from d in _context.NyTaxis
                         where d.Medallion.Contains(searchParameter)
                         select d;
-            
+
             return Ok(new PagedResponse<NyTaxi>(query, pageIndex, pageSize, sortOrder));
         }
     }

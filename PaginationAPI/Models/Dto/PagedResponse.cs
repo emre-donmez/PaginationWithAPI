@@ -10,7 +10,7 @@ namespace PaginationAPI.Models.Dto
         public int TotalEntites { get; set; }
         public IEnumerable<T> Data { get; set; }
 
-        public PagedResponse(IQueryable<T> source, int pageIndex, int pageSize,string sortOrder)
+        public PagedResponse(IQueryable<T> source, int pageIndex, int pageSize, string sortOrder)
         {
             PageIndex = pageIndex;
             PageSize = pageSize;
@@ -36,10 +36,10 @@ namespace PaginationAPI.Models.Dto
                 var property = Expression.Property(parameter, sortOrder);
                 var lambda = Expression.Lambda<Func<T, object>>(Expression.Convert(property, typeof(object)), parameter);
 
-                if (isDesc)                
-                    return source.OrderByDescending(lambda);               
-                else                
-                    return source.OrderBy(lambda);                
+                if (isDesc)
+                    return source.OrderByDescending(lambda);
+                else
+                    return source.OrderBy(lambda);
             }
 
             return source;
